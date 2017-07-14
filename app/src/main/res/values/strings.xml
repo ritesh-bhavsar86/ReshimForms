@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">ReshimForms</string>
+    <string name="edit_profile">Edit Profile Picture</string>
+    <string name="calendar_date_picker_result_values_old">Year: %1$s\nMonth: %2$s\nDay: %3$s</string>
+    <string name="calendar_date_picker_result_values">%3$s/%2$s/%1$s</string>
+    <string name="radial_time_picker_result_value">%1$d:%2$d</string>
+
+    <string name="name">नाव:</string>
+    <string name="dob">जन्म तारीख:</string>
+    <string name="dot">जन्म वेळ:</string>
+    <string name="bplace">जन्म गाव:</string>
+    <string name="edu">शिक्षण:</string>
+    <string name="occu">नोकरी:</string>
+    <string name="sal">मासिक उत्पन्न:</string>
+    <string name="father">वडिलांचे नांव:</string>
+    <string name="father_occu">व्यवसाय:</string>
+    <string name="kul">कुळ:</string>
+    <string name="mama">मामाचे  नाव:</string>
+    <string name="mamkul">मामाचे कुळ:</string>
+    <string name="blood">रक्तगट:</string>
+    <string name="height">उंची:</string>
+    <string name="weight">वजन:</string>
+    <string name="raas">रास:</string>
+    <string name="nakshatra">नक्षत्र:</string>
+    <string name="facecolor">रंग:</string>
+    <string name="addr">घरचा पत्ता:</string>
+    <string name="contact">मोबाईल:</string>
+    <string name="expectation">अपेक्षा:</string>
+    <string name="header_head">भावसार रेशीमगाठी</string>
+    <string name="header_name">श्री. राजेश पंडित भावसार</string>
+    <string name="header_name_1">श्री. अमोल हिबारे</string>
+    <string name="header_addr">एन-५३ व्ही. जी. १४/२, पाटील नगर, सिडको, नाशिक-८   मोबाईल नं. ९८६०७४५५९७</string>
+    <string name="header_addr_1">सोलापूर, मोबाईल नं. ९९२१०३३२९१</string>
+    <string name="bhavsar_reshim_gathi">Bhavsar Reshim Gathi</string>
+    <string name="mr_rajesh_pandit_bhavsar">Mr. Rajesh Pandit Bhavsar</string>
+    <string name="address_eng">Address: N-53 V.G.14/2, Patil Nagar, Cidco, Nashik-9 Contact no: 9860745597</string>
+    <string name="name_eng">Name:</string>
+    <string name="dob_eng">DOB:</string>
+    <string name="birth_time_eng">Birth Time:</string>
+    <string name="birth_place">Birth Place:</string>
+    <string name="education">Education:</string>
+    <string name="occupation_eng">Occupation:</string>
+    <string name="salary_eng">Salary:</string>
+    <string name="father_name_eng">Father Name:</string>
+    <string name="father_occupation_eng">Occupation:</string>
+    <string name="kul_eng">Kul:</string>
+    <string name="mama_eng">Mama:</string>
+    <string name="mama_s_kul_eng">Mama\'s Kul:</string>
+    <string name="blood_group_eng">Blood Group:</string>
+    <string name="height_eng">Height:</string>
+    <string name="weight_eng">Weight:</string>
+    <string name="raas_eng">Raas:</string>
+    <string name="nakshtra_eng">Nakshtra:</string>
+    <string name="face_color_eng">Face Color:</string>
+    <string name="addres_eng">Address:</string>
+    <string name="contact_no_eng">Contact No:</string>
+    <string name="expectation_eng">Expectation:</string>
+    <!--<string name="name">नाव:</string>-->
+    <!--<string name="name">नाव:</string>-->
+    <!--<string name="name">नाव:</string>-->
+
+
+
+</resources>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground"
+    android:focusable="true"
+    android:id="@+id/rl_view"
+    >
+
+    <ImageView
+        android:id="@+id/iv_candidate_profile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/ic_launcher_round" />
+
+    <TextView
+        android:id="@+id/txt_can_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_candidate_profile"
+        android:paddingLeft="20dp"
+        android:text="name"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/txt_candidate_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/iv_candidate_profile"
+        android:paddingLeft="10dp"
+        android:paddingTop="15dp"
+        android:text="name name name"
+        android:textColor="@color/colorInputTextAccent"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txt_candidate_dob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_candidate_name"
+        android:layout_toRightOf="@+id/iv_candidate_profile"
+        android:text="dob"
+        android:textColor="@color/colorInputTextAccent"
+        android:textSize="12sp"
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/txt_candidate_dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_candidate_name"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/txt_candidate_dob"
+        android:text="dot"
+        android:textColor="@color/colorInputTextAccent"
+        android:textSize="12sp"
+        android:paddingTop="5dp"/>
+
+    <TextView
+        android:id="@+id/txt_can_edu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_candidate_dob"
+        android:layout_toRightOf="@+id/iv_candidate_profile"
+        android:text="education"
+        android:textColor="@color/colorInputTextAccent"
+        android:textSize="12sp"
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/txt_can_occupa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_can_edu"
+        android:layout_toRightOf="@+id/iv_candidate_profile"
+        android:text="occupation"
+        android:textColor="@color/colorInputTextAccent"
+        android:textSize="12sp"
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"
+        />
+
+    <TextView
+        android:id="@+id/txt_can_sal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_can_edu"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/txt_can_occupa"
+        android:text="Salary"
+        android:textColor="@color/colorInputTextAccent"
+        android:textSize="12sp"
+        android:paddingTop="5dp"
+        />
+
+
+</RelativeLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorInputTextPrimary">#46e2d0</color>
+    <color name="colorInputTextPDark">#247c72</color>
+    <color name="colorInputTextAccent">#282828</color>
+    <color name="colorInputTexthint">#999999</color>
+    <color name="colorAlphaBlack">#AA282828</color>
+    <color name="colorwhite">#DEDEDE</color>
+    <color name="colorButtonBg">#CDCDCD</color>
+    <color name="lst_bg_male">#c9d5e8</color>
+    <color name="lst_bg_female">#edd3ea</color>
+
+
+
+
+</resources>
