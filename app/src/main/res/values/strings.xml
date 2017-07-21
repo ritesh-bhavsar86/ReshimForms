@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">ReshimForms</string>
+    <string name="app_name">Reshim Gathi</string>
+    <string name="app_name_mar">रेशीम गाठी</string>
+
     <string name="edit_profile">Edit Profile Picture</string>
     <string name="calendar_date_picker_result_values_old">Year: %1$s\nMonth: %2$s\nDay: %3$s</string>
     <string name="calendar_date_picker_result_values">%3$s/%2$s/%1$s</string>
@@ -29,11 +31,11 @@
     <string name="header_head">भावसार रेशीमगाठी</string>
     <string name="header_name">श्री. राजेश पंडित भावसार</string>
     <string name="header_name_1">श्री. अमोल हिबारे</string>
-    <string name="header_addr">एन-५३ व्ही. जी. १४/२, पाटील नगर, सिडको, नाशिक-८   मोबाईल नं. ९८६०७४५५९७</string>
+    <string name="header_addr">एन-५३ व्ही. जी. १४/२, पाटील नगर, सिडको, नाशिक-८  मोबाईल नं. ९१३०४१५८२८</string>
     <string name="header_addr_1">सोलापूर, मोबाईल नं. ९९२१०३३२९१</string>
     <string name="bhavsar_reshim_gathi">Bhavsar Reshim Gathi</string>
     <string name="mr_rajesh_pandit_bhavsar">Mr. Rajesh Pandit Bhavsar</string>
-    <string name="address_eng">Address: N-53 V.G.14/2, Patil Nagar, Cidco, Nashik-9 Contact no: 9860745597</string>
+    <string name="address_eng">Address: N-53 V.G.14/2, Patil Nagar, Cidco, Nashik-9 Contact no: ९१३०४१५८२८</string>
     <string name="name_eng">Name:</string>
     <string name="dob_eng">DOB:</string>
     <string name="birth_time_eng">Birth Time:</string>

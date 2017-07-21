@@ -409,13 +409,13 @@ public class MainActivity extends AppCompatActivity implements
 
                         if (rg_gender.getCheckedRadioButtonId() == rbtn_male.getId()) {
                             data.setGender("M");
-                            data.setCandidateId("M" + (id + 1));
+                            data.setCandidateId("RGM-" + (id + 1));
                         } else if (rg_gender.getCheckedRadioButtonId() == rbtn_female.getId()) {
                             data.setGender("F");
-                            data.setCandidateId("F" + (id + 1));
+                            data.setCandidateId("RGF-" + (id + 1));
                         } else {
                             data.setGender("T");
-                            data.setCandidateId("T" + (id + 1));
+                            data.setCandidateId("RGT-" + (id + 1));
                         }
                         try {
                             data.setHeight(Float.valueOf(edt_height.getText().toString().trim()));
