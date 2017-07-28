@@ -125,6 +125,11 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.txt_c_fcolor)
     TextView txt_c_fcolor;
 
+    @BindView(R.id.txt_c_mothername)
+    TextView txt_c_mother;
+
+    @BindView(R.id.txt_status)
+    TextView txt_c_status;
 
 
     @Override
@@ -270,6 +275,9 @@ public class ProfileActivity extends AppCompatActivity {
                 txt_c_addr.setText( cdata.getAddress());
                 txt_c_contact.setText( cdata.getContactNo());
                 txt_c_blood.setText( cdata.getBloodGrp());
+
+                txt_c_mother.setText( cdata.getMothersName());
+                txt_c_status.setText( cdata.getStatus());
 
                 try {
                     if(String.valueOf(cdata.getHeight()).contains(".")) {

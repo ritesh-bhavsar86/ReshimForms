@@ -8,6 +8,9 @@
     <string name="radial_time_picker_result_value">%1$d:%2$d</string>
 
     <string name="name">नाव:</string>
+    <string name="mothername">आईचे नाव:</string>
+    <string name="stats">आईचे नाव:</string>
+
     <string name="dob">जन्म तारीख:</string>
     <string name="dot">जन्म वेळ:</string>
     <string name="bplace">जन्म गाव:</string>
