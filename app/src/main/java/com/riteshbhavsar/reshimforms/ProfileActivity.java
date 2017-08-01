@@ -260,44 +260,48 @@ public class ProfileActivity extends AppCompatActivity {
                     txt_c_cid.setTextColor(getResources().getColor(R.color.bpWhite));
                 }
                 txt_c_cid.setText(cdata.getCandidateId());
-                txt_cname.setText( cdata.getFullname());
-                txt_c_bdate.setText(cdata.getDobStr());
-                txt_c_btime.setText(cdata.getDotStr());
-                txt_c_bplace.setText( cdata.getBirthPlace());
-                txt_c_fathername.setText( cdata.getFathersFullName());
-                txt_c_fatheroccu.setText( cdata.getFathersOccupation());
-                txt_c_edu.setText( cdata.getEducation());
-                txt_c_occu.setText( cdata.getOccupation());
-                txt_c_salary.setText(String.valueOf( cdata.getSalary()));
-                txt_c_kul.setText( cdata.getKul());
-                txt_c_mamaname.setText( cdata.getFullNameOfMama());
-                txt_c_mamkul.setText( cdata.getMameKul());
-                txt_c_addr.setText( cdata.getAddress());
-                txt_c_contact.setText( cdata.getContactNo());
-                txt_c_blood.setText( cdata.getBloodGrp());
+                txt_cname.setText(": "+ cdata.getFullname());
+                txt_c_bdate.setText(": "+cdata.getDobStr());
+                txt_c_btime.setText(": "+cdata.getDotStr());
+                txt_c_bplace.setText(": "+ cdata.getBirthPlace());
+                txt_c_fathername.setText(": "+ cdata.getFathersFullName());
+                txt_c_fatheroccu.setText(": "+ cdata.getFathersOccupation());
+                txt_c_edu.setText(": "+ cdata.getEducation());
+                txt_c_occu.setText(": "+ cdata.getOccupation());
+                txt_c_salary.setText(": "+String.valueOf( cdata.getSalary()));
+                txt_c_kul.setText(": "+ cdata.getKul());
+                txt_c_mamaname.setText(": "+ cdata.getFullNameOfMama());
+                txt_c_mamkul.setText(": "+ cdata.getMameKul());
+                txt_c_addr.setText(": "+cdata.getAddress());
+                txt_c_contact.setText(": "+ cdata.getContactNo());
+                txt_c_blood.setText(": "+ cdata.getBloodGrp());
 
-                txt_c_mother.setText( cdata.getMothersName());
-                txt_c_status.setText( cdata.getStatus());
+                txt_c_mother.setText(": "+ cdata.getMothersName());
+                txt_c_status.setText(": "+ cdata.getStatus());
 
                 try {
                     if(String.valueOf(cdata.getHeight()).contains(".")) {
-                        txt_c_height.setText(String.valueOf(cdata.getHeight()).substring(0,String.valueOf(cdata.getHeight()).indexOf(".")) + " feet "
+                        txt_c_height.setText(": "+String.valueOf(cdata.getHeight()).substring(0,String.valueOf(cdata.getHeight()).indexOf(".")) + " feet "
                                 + String.valueOf(cdata.getHeight()).substring(String.valueOf(cdata.getHeight()).indexOf(".")+1) + " inch");
 //                        String[] arr = String.valueOf(cdata.getHeight()).split(".");
 //                        txt_c_height.setText(arr[0] + " feet" + arr[1] + " inch");
 //                        txt_c_height.setText(String.valueOf(cdata.getHeight()).split(".")[0] + " feet" + String.valueOf(cdata.getHeight()).split(".")[1] + " inch");
                     }else{
-                        txt_c_height.setText(String.valueOf(cdata.getHeight()) + " feet");
+                        txt_c_height.setText(": "+String.valueOf(cdata.getHeight()) + " feet");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                txt_c_weight.setText(String.valueOf(cdata.getWeight())+ " Kg");
-                txt_c_raas.setText(cdata.getRaas());
-                txt_c_nakshatra.setText(cdata.getNakshatra());
-                txt_c_expectation.setText(cdata.getExpectation());
-                txt_c_fcolor.setText(cdata.getFaceColor());
+                try {
+                    txt_c_weight.setText(": "+String.valueOf(cdata.getWeight())+ " Kg");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                txt_c_raas.setText(": "+cdata.getRaas());
+                txt_c_nakshatra.setText(": "+cdata.getNakshatra());
+                txt_c_expectation.setText(": "+cdata.getExpectation());
+                txt_c_fcolor.setText(": "+cdata.getFaceColor());
 
                 try {
                 Bitmap bmp = BitmapFactory.decodeByteArray(cdata.getProfileLogoByte(), 0, cdata.getProfileLogoByte().length);
@@ -381,7 +385,7 @@ public class ProfileActivity extends AppCompatActivity {
         try {
             // image naming and path  to include sd card  appending name you choose for file
 //            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
-            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + candidateId +".jpg";
+//            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + candidateId +".jpg";
 
             // create bitmap screen capture
 //            View v1 = getWindow().getDecorView().getRootView();
@@ -406,11 +410,34 @@ public class ProfileActivity extends AppCompatActivity {
             outputStream.flush();
             outputStream.close();
 
+            shareintent(imageFile);
 //            openScreenshot(imageFile);
             Toast.makeText(this, "Image created successfully", Toast.LENGTH_SHORT).show();
         } catch (Throwable e) {
             // Several error may come out with file handling or OOM
             e.printStackTrace();
+        }
+    }
+    /**
+     * Show share dialog BOTH image and text
+     * @param pictureFile
+     */
+    public void shareintent(File pictureFile) {
+        Uri imageUri = Uri.parse(pictureFile.getAbsolutePath());
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        //Target whatsapp:
+//        shareIntent.setPackage("com.whatsapp");
+        //Add text and then Image URI
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.header_head));
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        shareIntent.setType("image/jpeg");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        try {
+            startActivity(shareIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+//            ToastHelper.MakeShortText("Whatsapp have not been installed.");
         }
     }
     private void openScreenshot(File imageFile) {
