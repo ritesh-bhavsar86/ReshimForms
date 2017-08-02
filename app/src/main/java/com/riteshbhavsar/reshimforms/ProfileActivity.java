@@ -131,6 +131,10 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.txt_status)
     TextView txt_c_status;
 
+    @BindView(R.id.txt_c_noofsibling)
+    TextView txt_c_noofsibling;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,24 +264,24 @@ public class ProfileActivity extends AppCompatActivity {
                     txt_c_cid.setTextColor(getResources().getColor(R.color.bpWhite));
                 }
                 txt_c_cid.setText(cdata.getCandidateId());
-                txt_cname.setText(": "+ cdata.getFullname());
-                txt_c_bdate.setText(": "+cdata.getDobStr());
-                txt_c_btime.setText(": "+cdata.getDotStr());
-                txt_c_bplace.setText(": "+ cdata.getBirthPlace());
-                txt_c_fathername.setText(": "+ cdata.getFathersFullName());
-                txt_c_fatheroccu.setText(": "+ cdata.getFathersOccupation());
-                txt_c_edu.setText(": "+ cdata.getEducation());
-                txt_c_occu.setText(": "+ cdata.getOccupation());
-                txt_c_salary.setText(": "+String.valueOf( cdata.getSalary()));
-                txt_c_kul.setText(": "+ cdata.getKul());
-                txt_c_mamaname.setText(": "+ cdata.getFullNameOfMama());
-                txt_c_mamkul.setText(": "+ cdata.getMameKul());
-                txt_c_addr.setText(": "+cdata.getAddress());
-                txt_c_contact.setText(": "+ cdata.getContactNo());
+                txt_cname.setText( cdata.getFullname());
+                txt_c_bdate.setText(cdata.getDobStr());
+                txt_c_btime.setText(cdata.getDotStr());
+                txt_c_bplace.setText( cdata.getBirthPlace());
+                txt_c_fathername.setText(cdata.getFathersFullName());
+                txt_c_fatheroccu.setText(cdata.getFathersOccupation());
+                txt_c_edu.setText( cdata.getEducation());
+                txt_c_occu.setText(cdata.getOccupation());
+                txt_c_salary.setText(String.valueOf( cdata.getSalary()));
+                txt_c_kul.setText( cdata.getKul());
+                txt_c_mamaname.setText(cdata.getFullNameOfMama());
+                txt_c_mamkul.setText(cdata.getMameKul());
+                txt_c_addr.setText(cdata.getAddress());
+                txt_c_contact.setText( cdata.getContactNo());
                 txt_c_blood.setText(": "+ cdata.getBloodGrp());
 
-                txt_c_mother.setText(": "+ cdata.getMothersName());
-                txt_c_status.setText(": "+ cdata.getStatus());
+                txt_c_mother.setText( cdata.getMothersName());
+                txt_c_status.setText(cdata.getStatus());
 
                 try {
                     if(String.valueOf(cdata.getHeight()).contains(".")) {
@@ -300,8 +304,11 @@ public class ProfileActivity extends AppCompatActivity {
                 }
                 txt_c_raas.setText(": "+cdata.getRaas());
                 txt_c_nakshatra.setText(": "+cdata.getNakshatra());
-                txt_c_expectation.setText(": "+cdata.getExpectation());
+                txt_c_expectation.setText(cdata.getExpectation());
                 txt_c_fcolor.setText(": "+cdata.getFaceColor());
+
+                txt_c_noofsibling.setText(": "+cdata.getNoOfSiblings());
+
 
                 try {
                 Bitmap bmp = BitmapFactory.decodeByteArray(cdata.getProfileLogoByte(), 0, cdata.getProfileLogoByte().length);

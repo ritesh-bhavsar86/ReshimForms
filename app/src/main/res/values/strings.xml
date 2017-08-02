@@ -31,6 +31,8 @@
     <string name="addr">घरचा पत्ता</string>
     <string name="contact">मोबाईल</string>
     <string name="expectation">अपेक्षा</string>
+    <string name="noofsibling">भावंडे</string>
+
     <string name="header_head">भावसार रेशीम गाठी</string>
     <string name="header_name">श्री. राजेश पंडित भावसार</string>
     <string name="header_name_1">श्री. अमोल हिबारे</string>
@@ -60,6 +62,7 @@
     <string name="addres_eng">Address:</string>
     <string name="contact_no_eng">Contact No:</string>
     <string name="expectation_eng">Expectation:</string>
+    <string name="seperator_colon">:</string>
     <!--<string name="name">नाव:</string>-->
     <!--<string name="name">नाव:</string>-->
     <!--<string name="name">नाव:</string>-->
