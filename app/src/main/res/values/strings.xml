@@ -67,6 +67,11 @@
     <!--<string name="name">नाव:</string>-->
     <!--<string name="name">नाव:</string>-->
 
+    <string name="transition_string">first transition</string>
+    <string name="transition_string1">first transition1</string>
+    <string name="transition_string2">first transition2</string>
+    <string name="transition_string3">first transition3</string>
+
 
 
 </resources>

@@ -433,7 +433,9 @@
                     android:lines="2"
                     android:text="Ritesh"
                     android:textColor="#A10A0A"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:transitionName="@string/transition_string2"
+                    />
 
                 <TextView
                     android:id="@+id/txt_status"
@@ -450,7 +452,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="Ritesh"
-                    android:textColor="#780000" />
+                    android:textColor="#780000"
+                    android:transitionName="@string/transition_string3"
+                    />
 
                 <TextView
                     android:id="@+id/txt_c_btime"
@@ -581,14 +585,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/ic_launcher"
+                    android:transitionName="@string/transition_string"
+                    />
 
                 <TextView
                     android:id="@+id/txt_c_cid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:transitionName="@string/transition_string1"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"

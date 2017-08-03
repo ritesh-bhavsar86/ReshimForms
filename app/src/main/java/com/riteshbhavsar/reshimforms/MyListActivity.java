@@ -1,9 +1,12 @@
 package com.riteshbhavsar.reshimforms;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -96,8 +99,41 @@ public class MyListActivity extends AppCompatActivity {
 //        Candidate cdata = realmInstance.where(Candidate.class).equalTo("id", cid).findFirst();
 //        Toast.makeText(this, "Done" + cdata.getFirstName()+" "+ cdata.getContactNo(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MyListActivity.this, ProfileActivity.class);
+
+                // Get the transition name from the string
+                String transitionName = getString(R.string.transition_string);
+                String transitionName1 = getString(R.string.transition_string1);
+                String transitionName2 = getString(R.string.transition_string2);
+                String transitionName3 = getString(R.string.transition_string3);
+
+                // Define the view that the animation will start from
+//                    View viewStart = findViewById(R.id.card_view);
+                View viewStart = view.findViewById(R.id.iv_candidate_profile);
+                View viewStart1 = view.findViewById(R.id.txt_can_id);
+                View viewStart2 = view.findViewById(R.id.txt_candidate_name);
+                View viewStart3 = view.findViewById(R.id.txt_candidate_dob);
+
+
+                Pair<View, String> pair1 = Pair.create(viewStart, transitionName);
+                Pair<View, String> pair2 = Pair.create(viewStart1, transitionName1);
+                Pair<View, String> pair3 = Pair.create(viewStart2, transitionName2);
+                Pair<View, String> pair4 = Pair.create(viewStart3, transitionName3);
+
+                ActivityOptionsCompat options =
+
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(MyListActivity.this,
+                                pair1,
+                                pair2,
+                                pair3,
+                                pair4
+                        );
+//                            ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context,
+//                                    viewStart,   // Starting view
+//                                    transitionName    // The String
+//                            );
                 intent.putExtra("id", cid);
-                startActivity(intent);
+                startActivity(intent, options.toBundle());
+//                startActivity(intent);
             }
 
             @Override

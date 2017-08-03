@@ -13,7 +13,9 @@
         android:id="@+id/iv_candidate_profile"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@mipmap/ic_launcher_round" />
+        android:src="@mipmap/ic_launcher_round"
+        android:transitionName="@string/transition_string"
+        />
 
     <TextView
         android:id="@+id/txt_can_id"
@@ -25,7 +27,9 @@
         android:textColor="@color/colorAccent"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginLeft="5dp"/>
+        android:layout_marginLeft="5dp"
+        android:transitionName="@string/transition_string1"
+        />
 
     <TextView
         android:id="@+id/txt_candidate_name"
@@ -37,7 +41,9 @@
         android:text="name name name"
         android:textColor="@color/colorInputTextAccent"
         android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:transitionName="@string/transition_string2"
+        />
 
     <TextView
         android:id="@+id/txt_candidate_dob"
@@ -49,7 +55,9 @@
         android:textColor="@color/colorInputTextAccent"
         android:textSize="12sp"
         android:paddingTop="5dp"
-        android:paddingLeft="10dp"/>
+        android:paddingLeft="10dp"
+        android:transitionName="@string/transition_string3"
+        />
 
     <TextView
         android:id="@+id/txt_candidate_dot"

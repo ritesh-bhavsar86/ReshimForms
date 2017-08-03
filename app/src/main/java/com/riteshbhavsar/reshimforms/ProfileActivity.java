@@ -27,6 +27,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.riteshbhavsar.reshimforms.model.Candidate;
 
 import java.io.File;
@@ -311,8 +312,13 @@ public class ProfileActivity extends AppCompatActivity {
 
 
                 try {
-                Bitmap bmp = BitmapFactory.decodeByteArray(cdata.getProfileLogoByte(), 0, cdata.getProfileLogoByte().length);
-                iv_candidate_pic.setImageBitmap(bmp);
+//                Bitmap bmp = BitmapFactory.decodeByteArray(cdata.getProfileLogoByte(), 0, cdata.getProfileLogoByte().length);
+//                iv_candidate_pic.setImageBitmap(bmp);
+                    Glide.with(ProfileActivity.this).load(cdata.getProfileLogo())
+                            .thumbnail(0.5f)
+//                        .crossFade()
+//                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(iv_candidate_pic);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } catch (OutOfMemoryError e){
@@ -386,8 +392,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void saveTheBitmap(Bitmap bitmap, String candidateId) {
-        Date now = new Date();
-        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+//        Date now = new Date();
+//        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
 
         try {
             // image naming and path  to include sd card  appending name you choose for file
@@ -403,6 +409,11 @@ public class ProfileActivity extends AppCompatActivity {
             if(!imagedir.exists()){
                 imagedir.mkdir();
             }
+            imagedir = new File(imagedir, "profiles/");
+            if(!imagedir.exists()){
+                imagedir.mkdir();
+            }
+
             File imageFile = new File(imagedir, candidateId + ".jpg");
 
 //            try{

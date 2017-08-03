@@ -1,6 +1,7 @@
 package com.riteshbhavsar.reshimforms;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,7 +13,10 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -38,6 +42,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFragment;
 import com.riteshbhavsar.reshimforms.model.Candidate;
@@ -55,6 +61,8 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+
+import static android.R.attr.bitmap;
 
 public class MainActivity extends AppCompatActivity implements
         CalendarDatePickerDialogFragment.OnDateSetListener
@@ -219,7 +227,6 @@ public class MainActivity extends AppCompatActivity implements
     private int actionBarHeight;
 
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -235,7 +242,11 @@ public class MainActivity extends AppCompatActivity implements
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        getSupportActionBar().hide();
+        try {
+            getSupportActionBar().hide();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         setContentView(R.layout.activity_main);
 
@@ -253,8 +264,10 @@ public class MainActivity extends AppCompatActivity implements
         sharedpreferences = getSharedPreferences("ReshimGathi", Context.MODE_PRIVATE);
 
         edt_bdate.setInputType(0);
-        edt_bdate.setShowSoftInputOnFocus(false);
-        edt_btime.setShowSoftInputOnFocus(false);
+        edt_btime.setInputType(0);
+
+//        edt_bdate.setShowSoftInputOnFocus(false);
+//        edt_btime.setShowSoftInputOnFocus(false);
         btn_save.setHeight(actionBarHeight);
         btn_cancel.setHeight(actionBarHeight);
 
@@ -344,6 +357,16 @@ public class MainActivity extends AppCompatActivity implements
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
+
+            //with glide
+//            Glide.with(iv_profile.getContext())
+//                    .load(selectedImage)
+////                    .asBitmap()
+////                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+////                    .fitCenter()
+//                    .into(iv_profile);
+
+            //manual orientation
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
             Cursor cursor = getContentResolver().query(selectedImage,
@@ -354,18 +377,43 @@ public class MainActivity extends AppCompatActivity implements
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-//            ImageView imageView = (ImageView) findViewById(R.id.imgView);
 
+            Bitmap loadedBitmap = BitmapFactory.decodeFile(picturePath);
 
+            Matrix matrix = new Matrix();
+            Bitmap scaledBitmap;
+            if (loadedBitmap.getWidth() >= loadedBitmap.getHeight()){
+                matrix.setRectToRect(new RectF(0, 0, loadedBitmap.getWidth(), loadedBitmap.getHeight()), new RectF(0, 0, 400, 300), Matrix.ScaleToFit.CENTER);
+                scaledBitmap = Bitmap.createBitmap(loadedBitmap, 0, 0, loadedBitmap.getWidth(), loadedBitmap.getHeight(), matrix, true);
+            } else{
+                matrix.setRectToRect(new RectF(0, 0, loadedBitmap.getWidth(), loadedBitmap.getHeight()), new RectF(0, 0, 300, 400), Matrix.ScaleToFit.CENTER);
+                scaledBitmap = Bitmap.createBitmap(loadedBitmap, 0, 0, loadedBitmap.getWidth(), loadedBitmap.getHeight(), matrix, true);
+            }
+
+            File file = new File(getExternalCacheDir(), "image.jpg");
             try {
-                bmp_profile_logo = getBitmapFromUri(selectedImage);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
+                FileOutputStream out = new FileOutputStream(file);
+                scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
+                out.flush();
+                out.close();
+                bmp_profile_logo = scaledBitmap;
+            } catch (Exception e) {
+//                Log.e("Image", "Convert");
                 e.printStackTrace();
             }
+
+
+//            ImageView imageView = (ImageView) findViewById(R.id.imgView);
+
+            //old working
+//            try {
+//                bmp_profile_logo = getBitmapFromUri(selectedImage);
+//            } catch (IOException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
 //            imageView.setImageBitmap(bmp);
             iv_profile.setImageBitmap(bmp_profile_logo);
-
         }
     }
 
@@ -375,7 +423,78 @@ public class MainActivity extends AppCompatActivity implements
         FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
         Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
         parcelFileDescriptor.close();
-        return image;
+        ExifInterface ei = null;
+        try {
+            ei = new ExifInterface(uri.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_UNDEFINED);
+
+        Bitmap rotatedBitmap = null;
+        switch(orientation) {
+
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                rotatedBitmap = rotateImage(image, 90);
+                break;
+
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                rotatedBitmap = rotateImage(image, 180);
+                break;
+
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                rotatedBitmap = rotateImage(image, 270);
+                break;
+
+            case ExifInterface.ORIENTATION_NORMAL:
+                rotatedBitmap = image;
+            default:
+                break;
+        }
+        return rotatedBitmap;
+    }
+    public Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
+    }
+    public static Bitmap modifyOrientation(Bitmap bitmap, String image_absolute_path) throws IOException {
+        ExifInterface ei = new ExifInterface(image_absolute_path);
+        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                return rotate(bitmap, 90);
+
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                return rotate(bitmap, 180);
+
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                return rotate(bitmap, 270);
+
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                return flip(bitmap, true, false);
+
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                return flip(bitmap, false, true);
+
+            default:
+                return bitmap;
+        }
+    }
+
+    public static Bitmap rotate(Bitmap bitmap, float degrees) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degrees);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+    }
+
+    public static Bitmap flip(Bitmap bitmap, boolean horizontal, boolean vertical) {
+        Matrix matrix = new Matrix();
+        matrix.preScale(horizontal ? -1 : 1, vertical ? -1 : 1);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
     public void addToDB(){
@@ -450,14 +569,15 @@ public class MainActivity extends AppCompatActivity implements
                         data.setRaas(edt_raas.getText().toString().trim());
                         data.setNakshatra(edt_nakshatra.getText().toString().trim());
 
-                        try {
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            bmp_profile_logo.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                            byte[] byteArray = stream.toByteArray();
-                            data.setProfileLogoByte(byteArray);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        saveImage(bmp_profile_logo, data.getCandidateId(), data);
+//                        try {
+//                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                            bmp_profile_logo.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//                            byte[] byteArray = stream.toByteArray();
+//                            data.setProfileLogoByte(byteArray);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
 
 //                                                 data.setId(100);
 //                                                 data.setFirstName("Ritesh");
@@ -515,6 +635,7 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+    @SuppressLint("StringFormatMatches")
     @Override
     public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
         edt_bdate.setText(getString(R.string.calendar_date_picker_result_values, year, monthOfYear+1, dayOfMonth));
@@ -529,6 +650,38 @@ public class MainActivity extends AppCompatActivity implements
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.nothing, R.anim.slide_out);
+    }
+
+    private void saveImage(Bitmap finalBitmap, String image_name, Candidate data) {
+
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root);
+        myDir.mkdirs();
+
+        File imagedir = new File(myDir, "/ReshimImages/");
+        if(!imagedir.exists()){
+            imagedir.mkdir();
+        }
+        imagedir = new File(imagedir, "profileLogos/");
+        if(!imagedir.exists()){
+            imagedir.mkdir();
+        }
+
+//        File imageFile = new File(imagedir, candidateId + ".jpg");
+        String fname = "Image-" + image_name+ ".jpg";
+        File file = new File(imagedir, fname);
+        if (file.exists()) file.delete();
+//        Log.i("LOAD", root + fname);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
+            out.flush();
+            out.close();
+            //data saved
+            data.setProfileLogo(file.getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     //    private void basicCRUD(Realm realm) {
 //        // All writes must be wrapped in a transaction to facilitate safe multi threading

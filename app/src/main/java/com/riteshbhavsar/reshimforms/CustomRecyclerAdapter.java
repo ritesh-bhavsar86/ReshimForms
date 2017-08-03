@@ -5,9 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.riteshbhavsar.reshimforms.model.Candidate;
 
 import java.util.List;
@@ -97,6 +100,11 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAd
             try {
 //                Bitmap bmp = BitmapFactory.decodeByteArray(city.getProfileLogoByte(), 0, city.getProfileLogoByte().length);
 //                ((ImageView) currentView.findViewById(R.id.iv_candidate_profile)).setImageBitmap(bmp);
+                Glide.with(mContext).load(city.getProfileLogo())
+                        .thumbnail(0.5f)
+//                        .crossFade()
+//                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(holder.iv_candidate_profile);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -163,10 +171,28 @@ public        TextView txt_candidate_name;
 
         @BindView(R.id.rl_view)
         RelativeLayout rl_view;
+        @BindView(R.id.iv_candidate_profile)
+        ImageView iv_candidate_profile;
 
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
+        }
+
+        public RelativeLayout getRl_view() {
+            return rl_view;
+        }
+
+        public void setRl_view(RelativeLayout rl_view) {
+            this.rl_view = rl_view;
+        }
+
+        public ImageView getIv_candidate_profile() {
+            return iv_candidate_profile;
+        }
+
+        public void setIv_candidate_profile(ImageView iv_candidate_profile) {
+            this.iv_candidate_profile = iv_candidate_profile;
         }
 
         public TextView getTxt_candidate_name() {
