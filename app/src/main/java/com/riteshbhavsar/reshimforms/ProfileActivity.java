@@ -7,9 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,16 +21,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.riteshbhavsar.reshimforms.model.Candidate;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -143,6 +140,8 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.capturescreen);
 
         ButterKnife.bind(this);
+//        GalleryModule.get(this).setMemoryCategory(MemoryCategory.HIGH);
+
 
         try {
             realmInstance = Realm.getDefaultInstance();
@@ -314,7 +313,13 @@ public class ProfileActivity extends AppCompatActivity {
                 try {
 //                Bitmap bmp = BitmapFactory.decodeByteArray(cdata.getProfileLogoByte(), 0, cdata.getProfileLogoByte().length);
 //                iv_candidate_pic.setImageBitmap(bmp);
-                    Glide.with(ProfileActivity.this).load(cdata.getProfileLogo())
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions.placeholder(R.mipmap.ic_launcher_round);
+                    requestOptions.error(R.mipmap.ic_launcher_round);
+
+                    Glide.with(ProfileActivity.this)
+                            .setDefaultRequestOptions(requestOptions)
+                            .load(cdata.getProfileLogo())
                             .thumbnail(0.5f)
 //                        .crossFade()
 //                        .diskCacheStrategy(DiskCacheStrategy.ALL)

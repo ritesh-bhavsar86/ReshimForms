@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.riteshbhavsar.reshimforms.model.Candidate;
 
 import java.util.List;
@@ -100,7 +101,15 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAd
             try {
 //                Bitmap bmp = BitmapFactory.decodeByteArray(city.getProfileLogoByte(), 0, city.getProfileLogoByte().length);
 //                ((ImageView) currentView.findViewById(R.id.iv_candidate_profile)).setImageBitmap(bmp);
-                Glide.with(mContext).load(city.getProfileLogo())
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.placeholder(R.mipmap.ic_launcher_round);
+                requestOptions.error(R.mipmap.ic_launcher_round);
+                requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
+                requestOptions.circleCrop();
+
+                Glide.with(mContext)
+                        .setDefaultRequestOptions(requestOptions)
+                        .load(city.getProfileLogo())
                         .thumbnail(0.5f)
 //                        .crossFade()
 //                        .diskCacheStrategy(DiskCacheStrategy.ALL)

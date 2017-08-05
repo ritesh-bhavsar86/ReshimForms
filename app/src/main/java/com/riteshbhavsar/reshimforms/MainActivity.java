@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -53,6 +54,7 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -358,53 +360,43 @@ public class MainActivity extends AppCompatActivity implements
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
 
-            //with glide
-//            Glide.with(iv_profile.getContext())
-//                    .load(selectedImage)
-////                    .asBitmap()
-////                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-////                    .fitCenter()
-//                    .into(iv_profile);
-
-            //manual orientation
+            // Get and resize profile image
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
+            bmp_profile_logo = BitmapFactory.decodeFile(picturePath);
 
-            Bitmap loadedBitmap = BitmapFactory.decodeFile(picturePath);
-
-            Matrix matrix = new Matrix();
-            Bitmap scaledBitmap;
-            if (loadedBitmap.getWidth() >= loadedBitmap.getHeight()){
-                matrix.setRectToRect(new RectF(0, 0, loadedBitmap.getWidth(), loadedBitmap.getHeight()), new RectF(0, 0, 400, 300), Matrix.ScaleToFit.CENTER);
-                scaledBitmap = Bitmap.createBitmap(loadedBitmap, 0, 0, loadedBitmap.getWidth(), loadedBitmap.getHeight(), matrix, true);
-            } else{
-                matrix.setRectToRect(new RectF(0, 0, loadedBitmap.getWidth(), loadedBitmap.getHeight()), new RectF(0, 0, 300, 400), Matrix.ScaleToFit.CENTER);
-                scaledBitmap = Bitmap.createBitmap(loadedBitmap, 0, 0, loadedBitmap.getWidth(), loadedBitmap.getHeight(), matrix, true);
-            }
-
-            File file = new File(getExternalCacheDir(), "image.jpg");
+            ExifInterface exif = null;
             try {
-                FileOutputStream out = new FileOutputStream(file);
-                scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
-                out.flush();
-                out.close();
-                bmp_profile_logo = scaledBitmap;
-            } catch (Exception e) {
-//                Log.e("Image", "Convert");
+                File pictureFile = new File(picturePath);
+                exif = new ExifInterface(pictureFile.getAbsolutePath());
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
+            int orientation = ExifInterface.ORIENTATION_NORMAL;
 
-//            ImageView imageView = (ImageView) findViewById(R.id.imgView);
+            if (exif != null)
+                orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    bmp_profile_logo = rotateBitmap(bmp_profile_logo, 90);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    bmp_profile_logo = rotateBitmap(bmp_profile_logo, 180);
+                    break;
+
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    bmp_profile_logo = rotateBitmap(bmp_profile_logo, 270);
+                    break;
+            }
+        }
             //old working
 //            try {
 //                bmp_profile_logo = getBitmapFromUri(selectedImage);
@@ -414,7 +406,13 @@ public class MainActivity extends AppCompatActivity implements
 //            }
 //            imageView.setImageBitmap(bmp);
             iv_profile.setImageBitmap(bmp_profile_logo);
-        }
+//        }
+    }
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, int degrees) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degrees);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {
@@ -423,78 +421,7 @@ public class MainActivity extends AppCompatActivity implements
         FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
         Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
         parcelFileDescriptor.close();
-        ExifInterface ei = null;
-        try {
-            ei = new ExifInterface(uri.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                ExifInterface.ORIENTATION_UNDEFINED);
-
-        Bitmap rotatedBitmap = null;
-        switch(orientation) {
-
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                rotatedBitmap = rotateImage(image, 90);
-                break;
-
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                rotatedBitmap = rotateImage(image, 180);
-                break;
-
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                rotatedBitmap = rotateImage(image, 270);
-                break;
-
-            case ExifInterface.ORIENTATION_NORMAL:
-                rotatedBitmap = image;
-            default:
-                break;
-        }
-        return rotatedBitmap;
-    }
-    public Bitmap rotateImage(Bitmap source, float angle) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
-                matrix, true);
-    }
-    public static Bitmap modifyOrientation(Bitmap bitmap, String image_absolute_path) throws IOException {
-        ExifInterface ei = new ExifInterface(image_absolute_path);
-        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
-        switch (orientation) {
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                return rotate(bitmap, 90);
-
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                return rotate(bitmap, 180);
-
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                return rotate(bitmap, 270);
-
-            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
-                return flip(bitmap, true, false);
-
-            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
-                return flip(bitmap, false, true);
-
-            default:
-                return bitmap;
-        }
-    }
-
-    public static Bitmap rotate(Bitmap bitmap, float degrees) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(degrees);
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-    }
-
-    public static Bitmap flip(Bitmap bitmap, boolean horizontal, boolean vertical) {
-        Matrix matrix = new Matrix();
-        matrix.preScale(horizontal ? -1 : 1, vertical ? -1 : 1);
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        return image;
     }
 
     public void addToDB(){
@@ -719,4 +646,5 @@ public class MainActivity extends AppCompatActivity implements
 //            }
 //        });
 //    }
+
 }
