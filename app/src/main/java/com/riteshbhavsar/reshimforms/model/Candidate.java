@@ -34,6 +34,8 @@ public class Candidate extends RealmObject {
     private float height;//foot.inch
     private float weight;//kg
     private int noOfSiblings;
+    private int noOfSiblings_bro;
+
     private String occupation;
     private long salary;
     @Required
@@ -58,6 +60,14 @@ public class Candidate extends RealmObject {
     private String raas;
     private String nakshatra;
     private String faceColor;
+
+    public int getNoOfSiblings_bro() {
+        return noOfSiblings_bro;
+    }
+
+    public void setNoOfSiblings_bro(int noOfSiblings_bro) {
+        this.noOfSiblings_bro = noOfSiblings_bro;
+    }
 
     public String getFaceColor() {
         return faceColor;

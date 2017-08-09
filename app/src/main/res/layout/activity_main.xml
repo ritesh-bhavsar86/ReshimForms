@@ -477,12 +477,32 @@ android:drawableStart="@drawable/ic_edit_black_24dp"
                 android:id="@+id/edt_siblings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="no. of Siblings"
+                android:hint="no. of sisters"
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxLength="2"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:text="0"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edt_siblings_bro_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edt_siblings_bro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="no. of brothers"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="2"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="0"/>
 
         </android.support.design.widget.TextInputLayout>
 

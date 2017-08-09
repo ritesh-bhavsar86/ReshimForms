@@ -173,6 +173,11 @@ public class MainActivity extends AppCompatActivity implements
     @BindView(R.id.edt_siblings)
     TextInputEditText edt_siblings;
 
+    @BindView(R.id.edt_siblings_bro_wrapper)
+    TextInputLayout edt_siblings_bro_wrapper;
+    @BindView(R.id.edt_siblings_bro)
+    TextInputEditText edt_siblings_bro;
+
     @BindView(R.id.edt_addr_wrapper)
     TextInputLayout edt_addr_wrapper;
     @BindView(R.id.edt_addr)
@@ -489,6 +494,11 @@ public class MainActivity extends AppCompatActivity implements
                         data.setStatus(edt_status.getText().toString().trim());
                         try {
                             data.setNoOfSiblings(Integer.valueOf(edt_siblings.getText().toString().trim()));
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            data.setNoOfSiblings_bro(Integer.valueOf(edt_siblings_bro.getText().toString().trim()));
                         } catch (NumberFormatException e) {
                             e.printStackTrace();
                         }

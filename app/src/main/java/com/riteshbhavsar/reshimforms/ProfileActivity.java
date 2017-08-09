@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
@@ -307,7 +308,15 @@ public class ProfileActivity extends AppCompatActivity {
                 txt_c_expectation.setText(cdata.getExpectation());
                 txt_c_fcolor.setText(": "+cdata.getFaceColor());
 
-                txt_c_noofsibling.setText(": "+cdata.getNoOfSiblings());
+                try {
+                    txt_c_noofsibling.setText(getResources().getString(R.string.no_of_sibling_txt,
+                            String.valueOf(cdata.getNoOfSiblings()),
+                            String.valueOf(cdata.getNoOfSiblings_bro())));
+                } catch (Resources.NotFoundException e) {
+                    e.printStackTrace();
+                }
+//txt_c_noofsibling.setText(": "+cdata.getNoOfSiblings()+ " sister"
+//                + cdata.getNoOfSiblings_bro()+ " brother");
 
 
                 try {

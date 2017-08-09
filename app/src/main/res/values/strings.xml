@@ -6,6 +6,7 @@
     <string name="calendar_date_picker_result_values_old">Year: %1$s\nMonth: %2$s\nDay: %3$s</string>
     <string name="calendar_date_picker_result_values">%3$s/%2$s/%1$s</string>
     <string name="radial_time_picker_result_value">%1$d:%2$d</string>
+    <string name="no_of_sibling_txt">: %1$s बहिण, %2$s भाऊ</string>
 
     <string name="name">नाव</string>
     <string name="mothername">आईचे नाव</string>
